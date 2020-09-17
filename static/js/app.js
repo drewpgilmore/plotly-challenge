@@ -1,11 +1,10 @@
 /* 1. Use the D3 library to read in samples.json. */
-
+d3.json("/../samples.json").then((data) => {
 
 /* 2. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
 Use sample_values as the values for the bar chart.
 Use otu_ids as the labels for the bar chart.
 Use otu_labels as the hovertext for the chart. */
-
 
 
 
@@ -25,8 +24,5 @@ Use otu_labels for the text values. */
 
 
 
+});
 
-/* Advanced Challenge Assignment (Optional) - The following task is advanced and therefore optional. */
-/* Adapt the Gauge Chart from https://plot.ly/javascript/gauge-charts/ to plot the weekly washing frequency of the individual.*/
-/* You will need to modify the example gauge code to account for values ranging from 0 through 9. */
-/* Update the chart whenever a new sample is selected. */
