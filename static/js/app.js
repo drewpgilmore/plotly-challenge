@@ -1,19 +1,9 @@
+var dropdownMenu = d3.select("#selDataset");
+var name = dropdownMenu.property("value");
 
 function init() {
-    displayData('940');
+    displayData(name);
 }
-
-d3.selectAll("#selDataset").on("change", displayData)
-
-// drop down menu patient id selection
-function handleSubmit() {
-    // Prevent the page from refreshing
-    d3.event.preventDefault();
-    // Select the input value from the form
-    var name = d3.select("#selDataset").node().value;        
-};
-
-var name = d3.select("#selDataset").value;
 
 function displayData(name) {
     /* 1. Use the D3 library to read in samples.json. */
@@ -34,9 +24,9 @@ function displayData(name) {
                 return d;
             });
 
-        
-        
-        
+        var dropdownMenu = d3.select("#selDataset");
+        var name = dropdownMenu.property("value");
+
         // identify element index of selected patient
         var index = ids.indexOf(name);
         
