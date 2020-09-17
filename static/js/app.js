@@ -13,7 +13,8 @@ function displayData(name) {
         var otuIDs = data.samples.map(d => d.otu_ids.slice(0,10));
         var otuLabels = data.samples.map(d => d.otu_labels.slice(0,10));
         var names = data.names;
-
+        var metadata = data.metadata;
+        
         // append names to dropdown menu
         d3.select("#selDataset")
             .selectAll("option")
@@ -23,12 +24,28 @@ function displayData(name) {
             .text(function(d) {
                 return d;
             });
-
-        var dropdownMenu = d3.select("#selDataset");
-        var name = dropdownMenu.property("value");
-
+        
+        // assign drop down selection to name
+        var name = d3.select("#selDataset").property("value");
+        
         // identify element index of selected patient
         var index = ids.indexOf(name);
+        console.log(index);
+        
+        /* Display the sample metadata, i.e., an individual's demographic information. */
+        // assign patient metadata for use below
+        var demographics = Object.entries(metadata[index]);
+        console.log(demographics);
+        // append metadata to demographics window
+        var selection = d3.select("#sample-metadata").selectAll("p")   
+            .data(demographics)
+        
+        selection.enter()
+            .append("p")
+            .merge(selection)
+            .text(function(d) {
+            return `${d[0]}: ${d[1]}`;
+            });
         
         // assign corresponding arrays to selected patient
         var sampleValues = sampleValues[index]; 
@@ -67,10 +84,13 @@ function displayData(name) {
 
         Plotly.newPlot("bubble", data, layout)
 
-        /* 4. Display the sample metadata, i.e., an individual's demographic information. */
+        
+        
+        
+        
+        
 
-
-        /* 5. Display each key-value pair from the metadata JSON object somewhere on the page. */
+        
 
         /* 6. Update all of the plots any time that a new sample is selected. */
     });
