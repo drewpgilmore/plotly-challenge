@@ -1,8 +1,9 @@
-/* 1. Use the D3 library to read in samples.json. */
+
 function init() {
-    var id = '940';
-    displayData();
+    displayData('940');
 }
+
+d3.selectAll("#selDataset").on("change", displayData)
 
 // drop down menu patient id selection
 function handleSubmit() {
@@ -12,14 +13,29 @@ function handleSubmit() {
     var name = d3.select("#selDataset").node().value;        
 };
 
+var name = d3.select("#selDataset").value;
 
 function displayData(name) {
-    // load data from json file
+    /* 1. Use the D3 library to read in samples.json. */
     d3.json("data/samples.json").then((data) => {
         var ids = data.samples.map(d => d.id);
         var sampleValues = data.samples.map(d => d.sample_values.slice(0,10));
         var otuIDs = data.samples.map(d => d.otu_ids.slice(0,10));
         var otuLabels = data.samples.map(d => d.otu_labels.slice(0,10));
+        var names = data.names;
+
+        // append names to dropdown menu
+        d3.select("#selDataset")
+            .selectAll("option")
+            .data(names)
+            .enter()
+            .append("option")
+            .text(function(d) {
+                return d;
+            });
+
+        
+        
         
         // identify element index of selected patient
         var index = ids.indexOf(name);
@@ -32,7 +48,7 @@ function displayData(name) {
         /* 2. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.*/
         var data = [{
             x: sampleValues, //Use sample_values as the values for the bar chart.
-            y:otuIDs,
+            //y: otuIDs,
             //y: otuIDs.map(otu => `OTU ${otu}`), //Use otu_ids as the labels for the bar chart.
             text: otuLabels, //Use otu_labels as the hovertext for the chart. 
             type: "bar",
