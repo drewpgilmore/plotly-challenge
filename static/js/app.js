@@ -35,7 +35,7 @@ function displayData(name) {
         /* Display the sample metadata, i.e., an individual's demographic information. */
         // assign patient metadata for use below
         var demographics = Object.entries(metadata[index]);
-        console.log(demographics);
+        
         // append metadata to demographics window
         var selection = d3.select("#sample-metadata").selectAll("p")   
             .data(demographics)
@@ -84,15 +84,52 @@ function displayData(name) {
 
         Plotly.newPlot("bubble", data, layout)
 
+        /* bonus -- add gauge chart */
+        var scrubFrequency = metadata[index].wfreq;
+        console.log(scrubFrequency);
         
+        var data = [
+            {
+                value: scrubFrequency,
+                title: {
+                    text: "Belly Button Washing per Week",
+                    font: {
+                        size: 24
+                    }
+                },
+                gauge: {
+                    axis: {
+                        visible: false,
+                        range: [null, 9],
+                        steps: [
+                            {range: [0, 1], color: "lightgray"},
+                            {range: [1, 2], color: "#80FFDB"},
+                            {range: [2, 3], color: "#80FFDB"},
+                            {range: [3, 4], color: "#80FFDB"},
+                            {range: [4, 5], color: "#80FFDB"},
+                            {range: [5, 6], color: "#80FFDB"},
+                            {range: [6, 7], color: "#80FFDB"},
+                            {range: [7, 8], color: "#80FFDB"},
+                            {range: [8, 9], color: "#80FFDB"},
+                        ]
+                    }
+                },
+                type: "indicator",
+                mode: "gauge+number"
+            }
+        ];
         
+        var layout = { 
+            width: 500, 
+            height: 500, 
+            margin: { 
+                t: 0, 
+                b: 0 
+            } 
+        };
         
-        
-        
+        Plotly.newPlot("gauge", data, layout);
 
-        
-
-        /* 6. Update all of the plots any time that a new sample is selected. */
     });
 
 };
